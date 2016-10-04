@@ -7,7 +7,7 @@ modulesid <- function(filename) {
 	}
 }
 
-#checking overlap and too large or too small modules
+#checking overlap and too large or too small modules, NULL means good
 checking <- function(filename){
 	rlines=readLines(filename)
 	cp=list()
@@ -47,6 +47,46 @@ reassignScore <- function(filename,modulefile){
 	y = net[,2]+1
 	W = sparseMatrix(i = x, j = y, x = net[,3], symmetric = TRUE)
 
+	rlines=readLines(modulefile)
+	file.remove(modulefile)
+	cp1=c()
+	for (i in 1:length(rlines)) {
+		ap=strsplit(rlines[i],'\t')[[1]]
+		ap=ap[3:length(ap)]
+		predictedid = as.numeric(ap) + 1
+		mscore = sum(W[predictedid,predictedid])
+		strtmp=c()
+		for (j in 1:length(ap)) {
+			strtmp = paste(strtmp,ap[j],sep='\t')
+		}
+		write(paste(paste(i,mscore,sep='\t'),strtmp,sep=''),file = modulefile,append = TRUE)
+	}
+
+	# Ordering the modules in decreasing
+	cp1=c()
+	rlines = readLines(modulefile)
+	file.remove(modulefile)
+	for(i in 1:length(rlines))
+	{
+		sp=strsplit(rlines[i],'\t')[[1]]
+		cp1[i] = as.numeric(sp[2])
+	}
+	sortedsc=sort(cp1,decreasing=T,index.return =T)
+
+ 	for (i in 1:length(rlines)) {
+		ap=strsplit(rlines[sortedsc$ix[i]],'\t')[[1]]
+		ap=ap[2:length(ap)]
+		strtmp = i
+		for (j in 1:length(ap)) {
+			strtmp = paste(strtmp,ap[j],sep='\t')
+		}
+		write(strtmp,file = modulefile,append = TRUE)
+	}
+
+}
+
+# re-assign module socre when given adjacency matrix W
+reassignScore2 <- function(W,modulefile){
 	rlines=readLines(modulefile)
 	file.remove(modulefile)
 	cp1=c()
@@ -129,6 +169,32 @@ reassignScore3 <- function(filename,modulefile){
 
 }
 
+# re-assign module socre when module score is already there
+reassignScore4 <- function(modulefile){
+	# Ordering the modules in decreasing
+	cp1=c()
+	rlines = readLines(modulefile)
+	file.remove(modulefile)
+	for(i in 1:length(rlines))
+	{
+		sp=strsplit(rlines[i],'\t')[[1]]
+		cp1[i] = as.numeric(sp[2])
+	}
+	sortedsc=sort(cp1,decreasing=T,index.return =T)
+
+ 	for (i in 1:length(rlines)) {
+		ap=strsplit(rlines[sortedsc$ix[i]],'\t')[[1]]
+		ap=ap[2:length(ap)]
+		strtmp = i
+		for (j in 1:length(ap)) {
+			strtmp = paste(strtmp,ap[j],sep='\t')
+		}
+		write(strtmp,file = modulefile,append = TRUE)
+	}
+
+}
+
+
 # avg size
 avgsize <-function(filename){
 	cp=c()
@@ -162,6 +228,5 @@ getscore <-function(filename){
 		ap=strsplit(rlines[i],'\t')[[1]]
 		cp[i] = as.numeric(ap[2])
 	}
-
 	return(cp)
 }

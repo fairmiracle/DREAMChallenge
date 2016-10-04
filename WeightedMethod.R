@@ -3,7 +3,7 @@
 ##	require package Matrix, igraph and AMOUNTAIN
 ####################################################
 source('AMOUNTAIN.R')
-ModulesAmoutain <- function(filename,W,Nmodule,savefile,minsize, maxsize){
+ModulesAmoutain <- function(W,Nmodule,savefile,minsize,maxsize){
 	saveAtomfile = paste(savefile,'Atom',sep = '')
 	N = dim(W)[1]
 	GeneNames = 1:N
@@ -12,12 +12,11 @@ ModulesAmoutain <- function(filename,W,Nmodule,savefile,minsize, maxsize){
 		abegin = 0.01
 		aend = 0.9
 		for (i in 1:20) {
-			#x1 <- moduleIdentificationGPFixSSnoNs(W,rep(1/N,N),
-		                #a=(abegin+aend)/2,maxiter = 50)
-			x <-moduleIdentificationGPNMFixSS(W,rep(1/N,N),
-		                a=(abegin+aend)/2,maxiter = 20)
+			x <- moduleIdentificationGPFixSSnoNs(W,rep(1/N,N),
+		                a=(abegin+aend)/2,maxiter = 50)
+			#x <-moduleIdentificationGPNMFixSS(W,rep(1/N,N),
+		    #            a=(abegin+aend)/2,maxiter = 50)
 			predictedid <- which(x[[2]]!=0)
-			#predictedid <- getLargestComp(W,predictedid)
 			if(length(predictedid) > maxsize){
 				abegin = (abegin+aend)/2
 			}else if (length(predictedid) < minsize){
@@ -304,7 +303,7 @@ excutescrpt <- function(filename,N,savefile,minsize,maxsize){
 	y = net[,2]+1
 	W = sparseMatrix(i = x, j = y, x = net[,3], symmetric = TRUE)
 	#savefile = paste('SubR1/',filename,sep = '')
-	ModulesAmoutain(filename,W,N,savefile,minsize,maxsize)
+	ModulesAmoutain(W,N,savefile,minsize,maxsize)
 }
 #knock down existing modules and extract new ones
 excutescrpt2 <- function(filename,savefile,N,exisitingmodulefile){
