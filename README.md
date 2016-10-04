@@ -63,18 +63,14 @@ The optimization-based approach is still in development. The further plan includ
 As discribed in the writing-up, the overall network is constructed from a sum matrix of all network, filtered out by a threshold.
 ```{r}
 source('DREAMChallengeCode/Comdetect.R')
-returnW <- function(filename,dims){
-	net = read.delim(filename,header = FALSE)
-	x = net[,1]+1
-	y = net[,2]+1
-	adj = sparseMatrix(i = x, j = y, x = net[,3], symmetric = TRUE, dims = dims)
-}
+source('DREAMChallengeCode/util.R')
 W1 = returnW('subchallenge2/1_ppi_anonym_aligned_v2.txt',c(21115,21115))
 W2 = returnW('subchallenge2/2_ppi_anonym_aligned_v2.txt',c(21115,21115))
 W4 = returnW('subchallenge2/4_coexpr_anonym_aligned_v2.txt',c(21115,21115))
 W5 = returnW('subchallenge2/5_cancer_anonym_aligned_v2.txt',c(21115,21115))
 W6 = returnW('subchallenge2/6_homology_anonym_aligned_v2.txt',c(21115,21115))
 W6 = W6/max(W6)
+
 filename='subchallenge2/3_signal_anonym_aligned_directed_v3.txt'
 net = read.delim(filename,header = FALSE)
 x = net[,1]+1

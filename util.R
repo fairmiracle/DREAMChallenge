@@ -6,6 +6,13 @@ modulesid <- function(filename) {
 		write(paste(i,rl[i],sep='\t'),file = filename,append = TRUE)
 	}
 }
+#reading adjacency matrix
+returnW <- function(filename,dims){
+	net = read.delim(filename,header = FALSE)
+	x = net[,1]+1
+	y = net[,2]+1
+	adj = sparseMatrix(i = x, j = y, x = net[,3], symmetric = TRUE, dims = dims)
+}
 
 #checking overlap and too large or too small modules, NULL means good
 checking <- function(filename){
