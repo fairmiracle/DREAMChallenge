@@ -1,6 +1,6 @@
 # Modules identification for weighted biological networks
 
-The R Code for ShanHeLab, see https://www.synapse.org/#!Synapse:syn7136340/wiki/403063
+The R Code for ShanHeLab at Disease Module Identification DREAM Challenge, see https://www.synapse.org/#!Synapse:syn7136340/wiki/403063
 
 Depends: R (>= 3.1.0), igraph, Matrix
 
