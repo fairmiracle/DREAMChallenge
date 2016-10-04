@@ -3,17 +3,16 @@
 The R Code for ShanHeLab, see https://www.synapse.org/#!Synapse:syn7136340/wiki/403063
 
 Depends: R (>= 3.1.0), igraph, Matrix
+
 License: GPL (>= 2)
 
 ## Files
-==============
 - Comdetect.R: Recursive community detection based on igraph package.
 - AMOUNTAIN.R: Modified from AMOUNTAIN package.
 - WeightedMethod.R: Multiple modules extraction using AMOUNTAIN.
 - util.R: Some additional functions such as rank modules
 
 ## Usage
-==============
 Put the folder "DREAMChallengeCode" at the same level of data folder for both subchallenges. Make a new folder "result" to save the modules, and two subfolders named "result/subchallenge1", "result/subchallenge2".
 ### Subchallenge 1
 ```{r}
